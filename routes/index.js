@@ -63,3 +63,19 @@ router.get("/notes", (req, res) => {
       res.status(404).json({ error: "Note not found" });
     }
   });
+
+  router.delete("/notes/:id", (req, res) => {
+    const noteId = parseInt(req.params.id);
+    let notes = readData();
+    const noteIndex = notes.findIndex((n) => n.id === noteId);
+  
+    if (noteIndex !== -1) {
+      const deletedNote = notes.splice(noteIndex, 1);
+      writeData(notes);
+      res.json(deletedNote[0]);
+    } else {
+      res.status(404).json({ error: "Note not found" });
+    }
+  });
+  
+  module.exports = router;
