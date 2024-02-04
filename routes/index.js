@@ -33,3 +33,17 @@ router.get("/notes", (req, res) => {
       res.status(404).json({ error: "Note not found" });
     }
   });
+
+  router.post("/notes", (req, res) => {
+    const { title, text } = req.body;
+    const notes = readData();
+    const newNote = {
+      id: Date.now(),
+      title,
+      text,
+    };
+  
+    notes.push(newNote);
+    writeData(notes);
+    res.status(201).json(newNote);
+  });
