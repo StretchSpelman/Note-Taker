@@ -47,3 +47,19 @@ router.get("/notes", (req, res) => {
     writeData(notes);
     res.status(201).json(newNote);
   });
+
+  router.put("/notes/:id", (req, res) => {
+    const noteId = parseInt(req.params.id);
+    const { title, text } = req.body;
+    let notes = readData();
+    const noteIndex = notes.findIndex((n) => n.id === noteId);
+  
+    if (noteIndex !== -1) {
+      notes[noteIndex].title = title || notes[noteIndex].title;
+      notes[noteIndex].text = text || notes[noteIndex].text;
+      writeData(notes);
+      res.json(notes[noteIndex]);
+    } else {
+      res.status(404).json({ error: "Note not found" });
+    }
+  });
